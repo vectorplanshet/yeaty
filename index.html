@@ -1371,100 +1371,89 @@ let lastTimestamp = null;
 
 /// ==== Переменные для следа ====
 let showTrail = false;
-let trailCoords = [[currentLat, currentLng]]; // массив координат текущего пути
-let allTrails = []; // массив маршрутов всех завершённых целей
+let trailCoords = [[currentLat, currentLng]]; // массив координат всего пути
+
+let trailLine = null;
+let startMarker = null;
+let trailDecorator = null;
 
 // ==== Функция определения цвета линии для DivIcon ====
 function getLineColor(marker) {
-    if (!marker || !marker.options || !marker.options.icon) return '#F70300';
+    if (!marker || !marker.options || !marker.options.icon) return '#F70300'; // дефолт красный
     const html = marker.options.icon.options.html || '';
-    if (html.includes('shahed')) return '#FDCF00';
-    if (html.includes('neyst tip')) return '#006aff';
-    return '#F70300';
+  
+    if (html.includes('shahed')) return '#FDCF00';    // жёлтый
+    if (html.includes('neyst tip')) return '#006aff'; // синий
+
+    return '#F70300'; // дефолт красный
 }
 
-function initTrailButton() {
+
+// ==== Создание линии и стрелок ====
+function createTrail(marker) {
+    const lineColor = getLineColor(marker);
+
+    trailLine = L.polyline(trailCoords, {
+        color: lineColor,
+        weight: 0.7,
+        opacity: 1
+    }).addTo(map);
+
+    // фиксируем стартовую точку (первая в маршруте)
+    startMarker = L.circleMarker(trailCoords[0], {
+        radius: 0.2,
+        color: lineColor,
+        fillColor: lineColor,
+        fillOpacity: 1
+    }).addTo(map);
+
+    updateDecorator(lineColor);
+}
+
+// ==== Декоратор стрелок ====
+function updateDecorator(lineColor) {
+    if (trailDecorator) map.removeLayer(trailDecorator);
+
+    trailDecorator = L.polylineDecorator(trailLine, {
+        patterns: [
+            {
+                offset: '100%',
+                repeat: 0,
+                symbol: L.Symbol.arrowHead({
+                    pixelSize: 4,
+                    polygon: true,
+                    pathOptions: { color: lineColor, fillOpacity: 1 }
+                })
+            }
+        ]
+    }).addTo(map);
+}
+
+// ==== Кнопка включения/выключения следа ====
+function initTrailButton(marker) {
     const btn = document.getElementById("left-arrow-button");
     if (!btn) return console.warn("Кнопка #left-arrow-button не найдена!");
 
     btn.addEventListener("click", () => {
         showTrail = !showTrail;
 
-        // Убираем старые линии (только маршруты)
-        map.eachLayer(layer => { if (layer._isTrail) map.removeLayer(layer); });
-
         if (showTrail) {
-            // 1. Завершённые маршруты
-            allTrails.forEach(trail => {
-                const line = L.polyline(trail.coords, {
-                    color: trail.color,
-                    weight: 0.7,
-                    opacity: 1
-                }).addTo(map);
-                line._isTrail = true;
-
-                L.polylineDecorator(line, {
-                    patterns: [{
-                        offset: '100%',
-                        repeat: 0,
-                        symbol: L.Symbol.arrowHead({
-                            pixelSize: 4,
-                            polygon: true,
-                            pathOptions: { color: trail.color, fillOpacity: 1 }
-                        })
-                    }]
-                }).addTo(map)._isTrail = true;
-
-                // Стартовая точка
-                L.circleMarker(trail.coords[0], {
-                    radius: 0.2,
-                    color: trail.color,
-                    fillColor: trail.color,
-                    fillOpacity: 1
-                }).addTo(map)._isTrail = true;
-            });
-
-            // 2. Активный маршрут текущей цели
-            if (trailCoords.length > 1) {
-                const color = getLineColor(marker);
-                const line = L.polyline(trailCoords, {
-                    color: color,
-                    weight: 0.7,
-                    opacity: 1
-                }).addTo(map);
-                line._isTrail = true;
-
-                L.polylineDecorator(line, {
-                    patterns: [{
-                        offset: '100%',
-                        repeat: 0,
-                        symbol: L.Symbol.arrowHead({
-                            pixelSize: 4,
-                            polygon: true,
-                            pathOptions: { color: color, fillOpacity: 1 }
-                        })
-                    }]
-                }).addTo(map)._isTrail = true;
-
-                // Стартовая точка
-                L.circleMarker(trailCoords[0], {
-                    radius: 0.2,
-                    color: color,
-                    fillColor: color,
-                    fillOpacity: 1
-                }).addTo(map)._isTrail = true;
-            }
+            createTrail(marker); // отрисуем весь накопленный путь
+        } else {
+            if (trailLine) { map.removeLayer(trailLine); trailLine = null; }
+            if (startMarker) { map.removeLayer(startMarker); startMarker = null; }
+            if (trailDecorator) { map.removeLayer(trailDecorator); trailDecorator = null; }
         }
     });
 }
 
-
-// ==== Инициализация кнопки ====
+// ==== Инициализация ====
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => initTrailButton());
+    document.addEventListener("DOMContentLoaded", () => initTrailButton(marker));
 } else {
-    initTrailButton();
+    initTrailButton(marker);
 }
+
 
 // ==== Popup для маркера ====
 const customPopupContent = `
@@ -1549,17 +1538,7 @@ function updatePosition(timestamp) {
             scheduleNextFrame(updatePosition);
         } else {
             isActive = false;
-
-            // сохраняем завершённый маршрут
-            if (trailCoords.length > 1) {
-                allTrails.push({
-                    coords: [...trailCoords],
-                    color: getLineColor(marker)
-                });
-            }
-
             marker.remove();
-            trailCoords = [];
         }
     } else {
         currentLat = newLat;
@@ -1569,8 +1548,14 @@ function updatePosition(timestamp) {
         scheduleNextFrame(updatePosition);
     }
 
-    // сохраняем путь
+    // ==== Всегда сохраняем путь ====
     trailCoords.push([currentLat, currentLng]);
+
+    // ==== Отображаем только если включено ====
+    if (showTrail && trailLine) {
+        trailLine.setLatLngs(trailCoords);
+        updateDecorator();
+    }
 }
 
 // ==== Инициализация маршрута ====
@@ -1683,7 +1668,6 @@ function openCoordsModal(callback) {
         callback(null);
     };
 }
-
 
 // ==== Удаление маркера без удаления линии ====
 marker.on('click', function () {
