@@ -158,10 +158,10 @@ input[type="text"]:focus {
         }
     
         .red-id {
-            color: #dd0347;
+            color: #000000;
         }
         .blue-id {
-            color: #2375D8; /* Синий цвет для текста */
+            color: #000000; /* Синий цвет для текста */
         }
         
 
@@ -170,14 +170,14 @@ input[type="text"]:focus {
 .red-id .r-container,
 .red-id .rls-container 
 .red-id .icon-container {
-    color: #dd0347;
+    color: #000000;
 }
 
 .blue-id .label-container,
 .blue-id .r-container,
 .blue-id .rls-container 
 .blue-id .icon-container {
-    color: #2375D8; /* Синий цвет для текста */
+    color: #000000; /* Синий цвет для текста */
 }
         .shifted-id-x-101 {
             margin-left: 20px;
@@ -248,19 +248,31 @@ input[type="text"]:focus {
             font-family: 'Roboto', sans-serif;
             color: #333333;
         }
+/* Для iPhone (портретная ориентация, ширина ≤ 375px) */
+@media (max-width: 375px) {
+    .label-container,
+    .r-container,
+    .rls1-container,
+    .rls-container,
+    .label1-container,
+    .r1-container {
+        font-size: 9px;  /* увеличиваем с 6.5px до 9px */
+    }
+}
 
         /* Delete Button */
       #deleteButton {
     width: 18.5px;           /* 37 / 2 */
     height: 16px;            /* 32 / 2 */
     border-radius: 1px;      /* 2 / 2 */
-  background-color: rgb(223, 223, 223);
+    background-color: rgb(101, 101, 101);
     color: rgb(130, 130, 130);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
     font-size: 8px;          /* 16 / 2 */
+    box-shadow: 0 0.5px 2px rgba(0,0,0,0.3);  /* 0 1px 4px / 2 */
     border: none;
     cursor: pointer;
 }
@@ -281,14 +293,14 @@ input[type="text"]:focus {
 .icon-container {
     display: flex;
     align-items: center;
-    gap: 5.5px;
+    gap: 10px;
     font-size: 7px;
     position: absolute;
     white-space: nowrap;
 }
         .icon-container .icon {
-            width: 18px;
-            height: 18px;
+            width: 19px;
+            height: 19px;
             object-fit: cover;
             display: block;
         }
@@ -307,6 +319,20 @@ input[type="text"]:focus {
     display: block;
 }
 
+/* Оптимизация для iPhone 11 Pro (375px ширина) */
+@media (max-width: 375px) {
+    .icon-container,
+    .icon-container1 {
+        gap: 6px;        /* немного уменьшаем расстояние */
+        font-size: 6px;  /* уменьшаем текст для компактности */
+    }
+
+    .icon-container .icon,
+    .icon-container1 .icon {
+        width: 20px;     /* чуть меньшие иконки */
+        height: 20px;
+    }
+}
         /* Modal Input Background for Target Coordinates */
         #targetModal {
             padding: 10px;
@@ -410,7 +436,6 @@ button#alert-button {
         left: auto;
         top: auto;
       }
-      
       * {
             margin: 0;
             padding: 0;
@@ -517,28 +542,12 @@ button#alert-button {
     justify-content: flex-start;
 }
 
-#left-arrow-button {
-  width: 19px;             /* такой же размер, как у alert-button */
-  height: 15px;
-  background-color: rgb(223, 223, 223); /* можно поменять цвет */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: none;
-  cursor: pointer;
-}
-
-#left-arrow-button img {
-  width: 11px;   /* иконка подогнана под размер */
-  height: 11px;
-}
 
 .custom-button {
   width: 19px;        /* 37 / 2 */
   height: 15px;         /* 28 / 2 */
-  background-color: rgb(223, 223, 223);
-  border-radius: 2px;   /* 2 / 2 */
+    background-color: rgb(101, 101, 101);
+  border-radius: 1.5px;   /* 2 / 2 */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -551,9 +560,23 @@ button#alert-button {
 }
 
 .custom-button.green {
-  background-color: rgb(223, 223, 223);
+    background-color: rgb(101, 101, 101);
 }
-
+#left-arrow-button {
+  width: 19px;             /* такой же размер, как у alert-button */
+  height: 15px;
+  background-color: rgb(101, 101, 101); /* можно поменять цвет */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+#left-arrow-button img {
+  width: 11px;   /* иконка подогнана под размер */
+  height: 11px;
+}
 #warning-message {
   position: fixed;
   top: 0;
@@ -570,6 +593,7 @@ button#alert-button {
 .hidden {
   display: none;
 }
+
 .menu-text {
   position: fixed;     /* фиксируем текст на экране */
   right: 10px;         /* совпадает с меню */
@@ -581,11 +605,10 @@ button#alert-button {
   margin-bottom: 0;
   padding-top: 3px;    /* этот padding создаёт промежуток сверху от кнопок */
 }
-
     </style>
 </head>
 <body>
-    <div id="warning-message">Commands have not been received for a long time</div>
+    <div id="warning-message">Не було повідомлень протягом тривалого часу</div>
     <div id="passwordContainer">    
         <img src="iconpas.png">
         <div class="inputWrapper">
@@ -599,39 +622,41 @@ button#alert-button {
     <div class="overlay"></div>
     <div id="map"></div>
 <!-- Модальное окно для отображения координат -->
-<!-- Меню в правом нижнем углу -->
-<!-- Меню в правом нижнем углу -->
-<div class="custom-menu">
-  <div class="menu-row">
-    <div style="width: 81px;"></div>
-    <div class="custom-button">
-      <img src="search.png" alt="Search" />
+  <!-- Меню в правом нижнем углу -->
+  <div class="custom-menu">
+    <div class="menu-row">
+            <div style="width: 59px;"></div>
+      <div class="custom-button">
+        <img src="reload.png" alt="Reload" />
+      </div>
+      <div class="custom-button">
+        <img src="search.png" alt="Search" />
+      </div>
     </div>
-  </div>
-  <div class="menu-row">
-    <div style="width: 81px;"></div>
-    <div class="custom-button">
-      <img src="signal.png" alt="Signal" />
+    <div class="menu-row">
+      <div style="width: 81px;"></div>
+      <div class="custom-button">
+        <img src="signal.png" alt="Signal" />
+      </div>
     </div>
-  </div>
-  <div class="menu-row">
-    <div style="width: 81px;"></div>
-    <div class="custom-button">
-      <img src="ugol.png" alt="Arrow" />
+    <div class="menu-row">
+      <div style="width: 81px;"></div>
+      <div class="custom-button">
+        <img src="ugol.png" alt="Arrow" />
+      </div>
     </div>
-  </div>
-  <div class="menu-row">
-    <div style="width: 81px;"></div>
-    <div class="custom-button">
-      <img src="pryamougol.png" alt="Layer" />
+    <div class="menu-row">
+      <div style="width: 81px;"></div>
+      <div class="custom-button">
+        <img src="pryamougol.png" alt="Layer" />
+      </div>
     </div>
-  </div>
-  <div class="menu-row">
-    <div style="width: 81px;"></div>
-    <div class="custom-button green">
-      <img src="plus.png" alt="Plus" />
+    <div class="menu-row">
+      <div style="width: 81px;"></div>
+      <div class="custom-button green">
+        <img src="plus.png" alt="Plus" />
+      </div>
     </div>
-  </div>
   <div class="menu-row">
     <div style="width: 40px;"></div>
     <!-- Новая кнопка со стрелкой -->
@@ -643,12 +668,11 @@ button#alert-button {
     <!-- Кнопка удаления -->
     <button id="deleteButton"><i class="fas fa-trash-alt"></i></button>
   </div>
-
-  <!-- Полупрозрачный текст внутри меню -->
-  <span class="menu-text">ver 1300 (1.3.0)</span>
+      <!-- Полупрозрачный текст внутри меню -->
+  <span class="menu-text">ver 1600 (1.6.0)</span>
 </div>
 
-
+  </div>
 
     <!-- Modal Elements -->
     <div class="modal-background" id="modalBackground"></div>
@@ -1052,10 +1076,6 @@ updateOverlayFilter();
   <div class="icon-container1 ${iconClass}">
             <img src="${iconUrl}" class="icon" />
             <div class="info-container1 ${shiftedClass} ${shiftedClasss}">
-                <span class="label1-container ${iconClass}">${objectId1} ${kievTime}</span>
-                <div class="info-container1 ${shiftedClass} ${shiftedClasss}">
-                <span class="r1-container ${iconClass}">EPA</span>
-                <span class="rls1-container ${iconClass}">interesting s</span>
             </div>
                         </div>
         </div>
@@ -1064,7 +1084,7 @@ updateOverlayFilter();
         className: 'icon',
         html: iconHtml,
         iconSize: [6.5, 6.5], // общий размер
-        iconAnchor: [10, 10],
+        iconAnchor: [10, 8],
     });
 } else {
     // Условия для выбора иконки в зависимости от скорости
@@ -1207,11 +1227,6 @@ updateOverlayFilter();
   iconHtml = `
     <div class="icon-container ${iconClass}">
       <img src="${iconUrl}" class="icon" />
-      <div class="info-container ${shiftedClass} ${shiftedClasss}">
-        <span class="label-container ${iconClass}">${objectId3}</span>
-        <span class="r-container ${iconClass}">ЛБ·</span>
-        <span class="rls-container ${iconClass}">ㅤ</span>
-      </div>
     </div>
   `;
 Ы
@@ -1221,11 +1236,6 @@ updateOverlayFilter();
   iconHtml = `
     <div class="icon-container ${iconClass}">
       <img src="${iconUrl}" class="icon" />
-      <div class="info-container ${shiftedClass} ${shiftedClasss}">
-        <span class="label-container ${iconClass}">${objectId}р</span>
-        <span class="r-container ${iconClass}">ПП·</span>
-        <span class="rls-container ${iconClass}">ㅤ</span>
-      </div>
     </div>
   `;
       icon = L.divIcon({
@@ -1240,11 +1250,6 @@ updateOverlayFilter();
     iconHtml = `
         <div class="icon-container ${iconClass}">
             <img src="${iconUrl}" class="icon" />
-            <div class="info-container ${shiftedClass} ${shiftedClasss}">
-                <span class="label-container ${iconClass}">0${objectId2}р</span>
-                <span class="r-container ${iconClass}">ЗЛ</span>
-                        <span class="rls-container ${iconClass}">ㅤ</span>
-            </div>
         </div>
     `;
               icon = L.divIcon({
@@ -1259,11 +1264,6 @@ updateOverlayFilter();
   iconHtml = `
     <div class="icon-container ${iconClass}">
       <img src="${iconUrl}" class="icon" />
-      <div class="info-container ${shiftedClass} ${shiftedClasss}">
-        <span class="label-container ${iconClass}">0${objectId2}р</span>
-        <span class="r-container ${iconClass}">СВ</span>
-        <span class="rls-container ${iconClass}">ㅤ</span>
-      </div>
     </div>
   `;
           icon = L.divIcon({
@@ -1290,11 +1290,6 @@ const randomNumber = Math.floor(Math.random() * 200) + 1;
     iconHtml = `
         <div class="icon-container ${iconClass}">
             <img src="${iconUrl}" class="icon" />
-             <div class="info-container ${shiftedClass} ${shiftedClasss}">
-                <span class="label-container ${iconClass}">${objectId}р</span>
-                <span class="r-container ${iconClass}">ПП·</span>
-                        <span class="rls-container ${iconClass}">ㅤ</span>
-            </div>
         </div>
     `;
         icon = L.divIcon({
@@ -1309,10 +1304,18 @@ let iconCreated = false;
 
 const marker = L.marker([lat, lng], { icon }).addTo(map);
 
-if (!iconCreated) {
-    document.getElementById('warning-message').classList.add('hidden');
-    iconCreated = true;
-}
+setInterval(() => {
+    const el = document.getElementById('warning-message');
+    
+    // бросаем "монетку": 0 или 1
+    const show = Math.random() < 0.5;
+
+    if (show) {
+        el.classList.remove('hidden'); // показать
+    } else {
+        el.classList.add('hidden');    // спрятать
+    }
+}, 10 * 60 * 1000); // каждые 10 минут
 
 const translations = {
     "supercam": "Supercam",
@@ -1366,115 +1369,93 @@ let waypoints = [];
 let currentWaypointIndex = 0;
 let lastTimestamp = null;
 
-// ==== Для Left-Button ====
-let showTrailLB = false;
-let trailCoordsLB = [[currentLat, currentLng]];
-let trailLineLB = null;
-let startMarkerLB = null;
-let trailDecoratorLB = null;
+/// ==== Переменные для следа ====
+let showTrail = false;
+let trailCoords = [[currentLat, currentLng]]; // массив координат всего пути
 
-// ==== Создаём отдельный pane для квадратиков, ниже маркеров ====
-map.createPane('squaresPane');
-map.getPane('squaresPane').style.zIndex = 400; // маркеры обычно в 600
+let trailLine = null;
+let startMarker = null;
+let trailDecorator = null;
 
-// ==== Для Popup ====
-let showTrailPopup = false;
-let trailCoordsPopup = [[currentLat, currentLng]];
-let trailLinePopup = null;
-let popupMarkers = [];
-let lastPointPopup = [currentLat, currentLng];
-
-// ==== Функция определения цвета линии для DivIcon (для LB) ====
+// ==== Функция определения цвета линии для DivIcon ====
 function getLineColor(marker) {
-    if (!marker || !marker.options || !marker.options.icon) return '#F70300'; 
+    if (!marker || !marker.options || !marker.options.icon) return '#F70300'; // дефолт красный
     const html = marker.options.icon.options.html || '';
-    if (html.includes('shahed')) return '#FDCF00';    
-    if (html.includes('neyst tip')) return '#006aff';
-    return '#F70300';
+  
+    if (html.includes('shahed')) return '#FDCF00';    // жёлтый
+    if (html.includes('neyst tip')) return '#006aff'; // синий
+
+    return '#F70300'; // дефолт красный
 }
 
-// ==== Left-Button линии и стрелки ====
-function createTrailLB(marker) {
+
+// ==== Создание линии и стрелок ====
+function createTrail(marker) {
     const lineColor = getLineColor(marker);
-    if (trailLineLB) map.removeLayer(trailLineLB);
-    if (startMarkerLB) map.removeLayer(startMarkerLB);
-    if (trailDecoratorLB) map.removeLayer(trailDecoratorLB);
 
-    trailLineLB = L.polyline(trailCoordsLB, { color: lineColor, weight: 0.7, opacity: 1 }).addTo(map);
-    startMarkerLB = L.circleMarker(trailCoordsLB[0], { radius: 0.2, color: lineColor, fillColor: lineColor, fillOpacity: 1 }).addTo(map);
-    updateDecoratorLB(lineColor);
+    trailLine = L.polyline(trailCoords, {
+        color: lineColor,
+        weight: 0.7,
+        opacity: 1
+    }).addTo(map);
+
+    // фиксируем стартовую точку (первая в маршруте)
+    startMarker = L.circleMarker(trailCoords[0], {
+        radius: 0.2,
+        color: lineColor,
+        fillColor: lineColor,
+        fillOpacity: 1
+    }).addTo(map);
+
+    updateDecorator(lineColor);
 }
 
-function updateDecoratorLB(lineColor) {
-    if (trailDecoratorLB) map.removeLayer(trailDecoratorLB);
-    trailDecoratorLB = L.polylineDecorator(trailLineLB, {
-        patterns: [{ offset: '100%', repeat: 0, symbol: L.Symbol.arrowHead({ pixelSize: 4, polygon: true, pathOptions: { color: lineColor, fillOpacity: 1 } }) }]
+// ==== Декоратор стрелок ====
+function updateDecorator(lineColor) {
+    if (trailDecorator) map.removeLayer(trailDecorator);
+
+    trailDecorator = L.polylineDecorator(trailLine, {
+        patterns: [
+            {
+                offset: '100%',
+                repeat: 0,
+                symbol: L.Symbol.arrowHead({
+                    pixelSize: 4,
+                    polygon: true,
+                    pathOptions: { color: lineColor, fillOpacity: 1 }
+                })
+            }
+        ]
     }).addTo(map);
 }
 
-document.getElementById("left-arrow-button")?.addEventListener("click", () => {
-    showTrailLB = !showTrailLB;
-    if (showTrailLB) createTrailLB(marker);
-    else {
-        if (trailLineLB) { map.removeLayer(trailLineLB); trailLineLB = null; }
-        if (startMarkerLB) { map.removeLayer(startMarkerLB); startMarkerLB = null; }
-        if (trailDecoratorLB) { map.removeLayer(trailDecoratorLB); trailDecoratorLB = null; }
-    }
-});
+// ==== Кнопка включения/выключения следа ====
+function initTrailButton(marker) {
+    const btn = document.getElementById("left-arrow-button");
+    if (!btn) return console.warn("Кнопка #left-arrow-button не найдена!");
 
-// ==== Popup-линия с квадратиками ====
-function createTrailPopup() {
-    if (trailLinePopup) map.removeLayer(trailLinePopup);
-    trailLinePopup = L.polyline(trailCoordsPopup, {
-        color: '#dd0347',
-        weight: 1,
-        opacity: 0.8
-    }).addTo(map);
+    btn.addEventListener("click", () => {
+        showTrail = !showTrail;
 
-    // Показываем квадратики
-    popupMarkers.forEach(m => m.setOpacity(1));
+        if (showTrail) {
+            createTrail(marker); // отрисуем весь накопленный путь
+        } else {
+            if (trailLine) { map.removeLayer(trailLine); trailLine = null; }
+            if (startMarker) { map.removeLayer(startMarker); startMarker = null; }
+            if (trailDecorator) { map.removeLayer(trailDecorator); trailDecorator = null; }
+        }
+    });
 }
 
-function removeTrailPopup() {
-    if (trailLinePopup) { map.removeLayer(trailLinePopup); trailLinePopup = null; }
-    // Скрываем квадратики
-    popupMarkers.forEach(m => m.setOpacity(0));
+// ==== Инициализация ====
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => initTrailButton(marker));
+} else {
+    initTrailButton(marker);
 }
 
-function maybeAddSquarePopup(lat, lng) {
-    // Случайное расстояние от 1 до 10 км
-    const randomDistance = 1000 + Math.random() * 29000; // метры
-    const distanceFromLast = haversine(lastPointPopup[0], lastPointPopup[1], lat, lng);
 
-    if (distanceFromLast >= randomDistance) {
-        const square = addSquarePopup(lat, lng);
-        if (!showTrailPopup) square.setOpacity(0);
-        lastPointPopup = [lat, lng];
-    }
-}
-
-function addSquarePopup(lat, lng) {
-    const square = L.marker([lat, lng], {
-        icon: L.divIcon({ className: 'popup-square', iconSize: [3, 3] }),
-        pane: 'squaresPane'
-    }).addTo(map);
-    popupMarkers.push(square);
-    return square;
-}
-
-// ==== CSS для квадратиков ====
-const style = document.createElement('style');
-style.innerHTML = `
-.popup-square {
-    background-color: #dd0347;
-    width: 4px;
-    height: 4px;
-    display: block;
-}
-`;
-document.head.appendChild(style);
-
-// ==== Popup ====
+// ==== Popup для маркера ====
 const customPopupContent = `
     <div class="custom-popup">
         <p><strong>ЦЕЛЬ:</strong> ${objectType}</p>
@@ -1482,16 +1463,9 @@ const customPopupContent = `
         <button id="changeCoordsBtn">Изменить координаты</button>
     </div>
 `;
-
-// Применяем popup с небольшим смещением вверх
-marker.bindPopup(customPopupContent, {
-    offset: L.point(0, -20) // поднимаем на 20 пикселей выше маркера
-});
+marker.bindPopup(customPopupContent);
 
 marker.on('popupopen', () => {
-    showTrailPopup = true;
-    createTrailPopup();
-
     setTimeout(() => {
         const popupEl = marker.getPopup().getElement();
         if (!popupEl) return;
@@ -1523,29 +1497,21 @@ marker.on('popupopen', () => {
     }, 0);
 });
 
-marker.on('popupclose', () => {
-    showTrailPopup = false;
-    removeTrailPopup();
-});
-
 marker.on('click', () => marker.openPopup());
 
-// ==== Поворот иконки ====
-function rotateIcon(lat1, lng1, lat2, lng2, speedVal) {
-    if (!marker._icon) return;
-    const iconEl = marker._icon.querySelector('.icon');
-    if (!iconEl) return;
-    if (speedVal === 0) iconEl.style.transform = `rotate(0deg)`;
-    else {
-        const course = calculateCourse(lat1, lng1, lat2, lng2) * (180 / Math.PI);
-        const angle = (course + 360) % 360;
-        iconEl.style.transform = `rotate(${angle}deg)`;
+function rotateIcon(lat1, lng1, lat2, lng2, speed) {
+    if (speed === 0) {
+        marker._icon.querySelector('.icon').style.transform = `rotate(0deg)`;
+        return;
     }
+    const course = calculateCourse(lat1, lng1, lat2, lng2) * (180 / Math.PI);
+    const angle = (course + 360) % 360;
+    marker._icon.querySelector('.icon').style.transform = `rotate(${angle}deg)`;
 }
 
 markers.push(marker);
 
-// ==== Анимация движения ====
+// ==== Стабильное обновление позиции ====
 function scheduleNextFrame(callback) {
     if (document.hasFocus()) requestAnimationFrame(callback);
     else setTimeout(() => { if (isActive) callback(performance.now()); }, 1000);
@@ -1553,19 +1519,20 @@ function scheduleNextFrame(callback) {
 
 function updatePosition(timestamp) {
     if (!lastTimestamp) lastTimestamp = timestamp;
-    const deltaTime = (timestamp - lastTimestamp)/1000;
+    const deltaTime = (timestamp - lastTimestamp) / 1000;
     lastTimestamp = timestamp;
-    const speedMps = speed*1000/3600;
-    let [newLat,newLng] = calculateNewPosition(currentLat,currentLng,speedMps,deltaTime,targetLatVar,targetLngVar);
 
-    const distance = haversine(currentLat,currentLng,targetLatVar,targetLngVar);
-    const stepDistance = haversine(currentLat,currentLng,newLat,newLng);
+    const speedMps = speed * 1000 / 3600;
+    let [newLat, newLng] = calculateNewPosition(currentLat, currentLng, speedMps, deltaTime, targetLatVar, targetLngVar);
 
-    if(stepDistance >= distance || distance <= 0.00001){
+    const distance = haversine(currentLat, currentLng, targetLatVar, targetLngVar);
+    const stepDistance = haversine(currentLat, currentLng, newLat, newLng);
+
+    if (stepDistance >= distance || distance <= 0.00001) {
         currentLat = targetLatVar;
         currentLng = targetLngVar;
         currentWaypointIndex++;
-        if(currentWaypointIndex < waypoints.length){
+        if (currentWaypointIndex < waypoints.length) {
             targetLatVar = waypoints[currentWaypointIndex][0];
             targetLngVar = waypoints[currentWaypointIndex][1];
             scheduleNextFrame(updatePosition);
@@ -1576,107 +1543,124 @@ function updatePosition(timestamp) {
     } else {
         currentLat = newLat;
         currentLng = newLng;
-        rotateIcon(currentLat,currentLng,targetLatVar,targetLngVar,speed);
-        marker.setLatLng([currentLat,currentLng]);
+        rotateIcon(currentLat, currentLng, targetLatVar, targetLngVar, speed);
+        marker.setLatLng([currentLat, currentLng]);
         scheduleNextFrame(updatePosition);
     }
 
-    // обновление линий
-    trailCoordsLB.push([currentLat,currentLng]);
-    if(showTrailLB && trailLineLB){
-        trailLineLB.setLatLngs(trailCoordsLB);
-        updateDecoratorLB(getLineColor(marker));
-    }
+    // ==== Всегда сохраняем путь ====
+    trailCoords.push([currentLat, currentLng]);
 
-    trailCoordsPopup.push([currentLat,currentLng]);
-    maybeAddSquarePopup(currentLat,currentLng);
-    if(showTrailPopup && trailLinePopup){
-        trailLinePopup.setLatLngs(trailCoordsPopup);
+    // ==== Отображаем только если включено ====
+    if (showTrail && trailLine) {
+        trailLine.setLatLngs(trailCoords);
+        updateDecorator();
     }
 }
 
 // ==== Инициализация маршрута ====
-waypoints.push([targetLat,targetLng]);
+waypoints.push([targetLat, targetLng]);
 currentWaypointIndex = 0;
 lastTimestamp = null;
 scheduleNextFrame(updatePosition);
 
 // ==== Вспомогательные функции ====
-function haversine(lat1,lon1,lat2,lon2){
-    const R=6371000;
-    const toRad=x=>x*Math.PI/180;
-    const dLat=toRad(lat2-lat1);
-    const dLon=toRad(lon2-lon1);
-    const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
-    return 2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+function haversine(lat1, lon1, lat2, lon2) {
+    const R = 6371000;
+    const toRad = x => x * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat/2) ** 2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon/2) ** 2;
+    return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
-function calculateCourse(lat1,lon1,lat2,lon2){
-    const toRad=x=>x*Math.PI/180;
-    const y=Math.sin(toRad(lon2-lon1))*Math.cos(toRad(lat2));
-    const x=Math.cos(toRad(lat1))*Math.sin(toRad(lat2))-Math.sin(toRad(lat1))*Math.cos(toRad(lat2))*Math.cos(toRad(lon2-lon1));
-    return Math.atan2(y,x);
+
+function calculateCourse(lat1, lon1, lat2, lon2) {
+    const toRad = x => x * Math.PI / 180;
+    const y = Math.sin(toRad(lon2 - lon1)) * Math.cos(toRad(lat2));
+    const x = Math.cos(toRad(lat1)) * Math.sin(toRad(lat2)) -
+              Math.sin(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.cos(toRad(lon2 - lon1));
+    return Math.atan2(y, x);
 }
-function calculateNewPosition(lat1,lon1,speedMps,deltaTime,lat2,lon2){
-    const distanceToTravel=speedMps*deltaTime;
-    const distanceTotal=haversine(lat1,lon1,lat2,lon2);
-    if(distanceToTravel>=distanceTotal) return [lat2,lon2];
-    const fraction=distanceToTravel/distanceTotal;
-    return [lat1+(lat2-lat1)*fraction, lon1+(lon2-lon1)*fraction];
+
+function calculateNewPosition(lat1, lon1, speedMps, deltaTime, lat2, lon2) {
+    const distanceToTravel = speedMps * deltaTime;
+    const distanceTotal = haversine(lat1, lon1, lat2, lon2);
+    if (distanceToTravel >= distanceTotal) return [lat2, lon2];
+    const fraction = distanceToTravel / distanceTotal;
+    return [
+        lat1 + (lat2 - lat1) * fraction,
+        lon1 + (lon2 - lon1) * fraction
+    ];
 }
 
 // ==== Модальное окно ====
-function openCoordsModal(callback){
-    const background=document.createElement('div');
-    background.className='modal-background show';
+function openCoordsModal(callback) {
+    const background = document.createElement('div');
+    background.className = 'modal-background show';
     document.body.appendChild(background);
 
-    const box=document.createElement('div');
-    box.className='modal show coords-modal-top-left';
-    box.innerHTML=`
+    const box = document.createElement('div');
+    box.className = 'modal show coords-modal-top-left';
+    box.innerHTML = `
         <h2>Выберите точки маршрута</h2>
         <textarea id="coordsInput" placeholder="Кликай колёсиком по карте" style="width:100%; height:80px; font-size:7px; background:#1e232c; color:#fff; border:1px solid #3a4152; border-radius:4px; padding:3px;"></textarea>
         <button id="coordsOk" class="modal-button">OK</button>
-        <button id="coordsCancel" class="modal-button">Отмена</button>`;
+        <button id="coordsCancel" class="modal-button">Отмена</button>
+    `;
     document.body.appendChild(box);
 
-    box.style.top='20px';
-    box.style.left='20px';
-    box.style.transform='none';
+    box.style.top = '20px';
+    box.style.left = '20px';
+    box.style.transform = 'none';
 
-    let isDragging=false, offsetX, offsetY;
-    box.onmousedown=(e)=>{
-        if(e.target.tagName==="TEXTAREA"||e.target.tagName==="BUTTON") return;
-        isDragging=true;
-        offsetX=e.clientX-box.offsetLeft;
-        offsetY=e.clientY-box.offsetTop;
-        document.onmousemove=(ev)=>{ if(isDragging){ box.style.left=ev.clientX-offsetX+'px'; box.style.top=ev.clientY-offsetY+'px'; }};
-        document.onmouseup=()=>{ isDragging=false; document.onmousemove=null; document.onmouseup=null; };
+    let isDragging = false;
+    let offsetX, offsetY;
+    box.onmousedown = (e) => {
+        if (e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON") return;
+        isDragging = true;
+        offsetX = e.clientX - box.offsetLeft;
+        offsetY = e.clientY - box.offsetTop;
+        document.onmousemove = (ev) => {
+            if (isDragging) {
+                box.style.left = ev.clientX - offsetX + "px";
+                box.style.top = ev.clientY - offsetY + "px";
+            }
+        };
+        document.onmouseup = () => {
+            isDragging = false;
+            document.onmousemove = null;
+            document.onmouseup = null;
+        };
     };
 
-    const textarea=box.querySelector('#coordsInput');
-    let tempWaypoints=[marker.getLatLng()];
-    let routeLine=L.polyline(tempWaypoints,{ color:'#dd0347', weight:1, opacity:1 }).addTo(map);
+    const textarea = box.querySelector('#coordsInput');
+    let tempWaypoints = [marker.getLatLng()];
+    let routeLine = L.polyline(tempWaypoints, { color: '#dd0347', weight: 1, opacity: 1 }).addTo(map);
 
-    const addCoord=(e)=>{
-        if(e.originalEvent.button!==1) return;
+    const addCoord = (e) => {
+        if (e.originalEvent.button !== 1) return;
         e.originalEvent.preventDefault();
-        const latlng=map.mouseEventToLatLng(e.originalEvent);
-        textarea.value+=latlng.lat.toFixed(5)+','+latlng.lng.toFixed(5)+'\n';
+        const latlng = map.mouseEventToLatLng(e.originalEvent);
+        textarea.value += latlng.lat.toFixed(5) + "," + latlng.lng.toFixed(5) + "\n";
         tempWaypoints.push(latlng);
         routeLine.setLatLngs(tempWaypoints);
     };
+
     map.on('mousedown', addCoord);
 
-    box.querySelector('#coordsOk').onclick=()=>{
+    box.querySelector('#coordsOk').onclick = () => {
         map.off('mousedown', addCoord);
         map.removeLayer(routeLine);
-        const coordsText=textarea.value.trim();
+        const coordsText = textarea.value.trim();
         callback(coordsText);
         document.body.removeChild(box);
         document.body.removeChild(background);
     };
 
-    box.querySelector('#coordsCancel').onclick=()=>{
+    box.querySelector('#coordsCancel').onclick = () => {
         map.off('mousedown', addCoord);
         map.removeLayer(routeLine);
         document.body.removeChild(box);
@@ -1704,7 +1688,6 @@ document.getElementById('deleteButton').onclick = function () {
     deleteMode = !deleteMode;
     this.innerHTML = deleteMode ? '<i class="fas fa-check"></i>' : '<i class="fas fa-trash-alt"></i>';
 };
-
 
         window.addEventListener('beforeunload', (event) => {
             event.preventDefault();
@@ -1883,7 +1866,6 @@ function getNextLitakId() {
     // Проверяем каждые 500 мс
     setInterval(updateAlertCount, 500);
     updateAlertCount();
-
     </script>
 </body>
 </html>
